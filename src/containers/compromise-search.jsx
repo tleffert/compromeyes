@@ -16,15 +16,19 @@ const CompromiseSearch = (props) => {
 
     const [loading, setLoading] = useState(false);
 
-    const [invalid, setInvalid] = useState(false);
+    useEffect(async () => {
+        // mostly to skip first render
+        if (!email) return;
 
-    useEffect(() => {
-        console.log("I'm the effect");
         setLoading(true);
-        listBreaches(email).then(({data}) => {
+        try {
+            const {data} = await listBreaches(email);
             setResults(data.slice(0, 50));
+        } catch (err) {
+            // Something bad happened
+        } finally {
             setLoading(false);
-        });
+        }
     }, [email])
 
     return (
@@ -33,13 +37,11 @@ const CompromiseSearch = (props) => {
                 <BreachEmailForm submit={(email) => setEmail(email)}/>
             </Box>
             <Box>
-                <div>
-                    {
-                        loading ?
-                            <Spinner /> :
-                            <BreachResults data={results}/>
-                    }
-                </div>
+                {
+                    loading ?
+                        <Spinner /> :
+                        <BreachResults data={results}/>
+                }
             </Box>
         </Fragment>
     );
