@@ -2,14 +2,18 @@ import { useState } from 'react';
 
 import { TextField } from '@material-ui/core';
 
+import { listBreaches } from '../shared/apis/breachApi';
 
 const CompromiseSearch = (props) => {
 
     const [email, setEmail] = useState('');
 
+    const [results, setResults] = useState([]);
+
     const handleEmailChange = (email) => {
         setEmail(email);
         // TODO api call for data - debounce changes
+        listBreaches(email).then(data => console.log(data));
     }
 
     return (

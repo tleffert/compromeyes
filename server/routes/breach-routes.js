@@ -7,9 +7,8 @@ module.exports = (parentRoute) => {
     parentRoute.use('/breaches', breachRouter);
 
     breachRouter.get('/', (req, res) => {
-        // req.params.email
         axios.get(
-            `https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURI('test@test.com')}`,
+            `https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURI(req.query.email)}`,
             {
                 headers: {
                     'hibp-api-key': '',
