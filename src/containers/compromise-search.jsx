@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { TextField } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 
 import { listBreaches } from '../shared/apis/breachApi';
 
@@ -15,24 +15,45 @@ const CompromiseSearch = (props) => {
 
     const [loading, setLoading] = useState(false);
 
-    const handleEmailChange = (email) => {
+    const [invalid, setInvalid] = useState(false);
+
+    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+
+    const handleEmailChange = () => {
         setLoading(true);
-        setEmail(email);
         // TODO api call for data - debounce changes
         listBreaches(email).then(({data}) => {
-            setResults(data);
+            setResults(data.slice(0, 50));
             setLoading(false);
         });
     }
 
+    const validateEmail = (emailInput) => {
+
+        if (!emailInput || emailInput.length == 0) {
+            setInvalid(true);
+        }
+
+        if (emailRegex.test(emailInput)) {
+            setInvalid(false);
+            setEmail(emailInput);
+        } else {
+            setInvalid(true);
+        }
+        setEmail(emailInput);
+    }
+
     return (
         <div>
-            <div>
-                <TextField id="standard-basic" label="Standard"
-                    onChange={(event) => handleEmailChange(event.target.value)}
+            <form>
+                <TextField id="standard-basic" label="Email"
+                    onChange={(event) => validateEmail(event.target.value)}
                     value={email}
+                    error={invalid}
+                    helperText={invalid? 'Incorrect format' : ''}
                 />
-            </div>
+            <Button variant="contained" disabled={invalid} onClick={handleEmailChange}>Submit</Button>
+            </form>
             <div>
                 {
                     loading ?
