@@ -4,16 +4,25 @@ import { TextField } from '@material-ui/core';
 
 import { listBreaches } from '../shared/apis/breachApi';
 
+import BreachResults from '../components/breach-results/BreachResults';
+import Spinner from '../components/UI/Spinner/Spinner';
+
 const CompromiseSearch = (props) => {
 
     const [email, setEmail] = useState('');
 
     const [results, setResults] = useState([]);
 
+    const [loading, setLoading] = useState(false);
+
     const handleEmailChange = (email) => {
+        setLoading(true);
         setEmail(email);
         // TODO api call for data - debounce changes
-        listBreaches(email).then(data => console.log(data));
+        listBreaches(email).then(({data}) => {
+            setResults(data);
+            setLoading(false);
+        });
     }
 
     return (
@@ -26,7 +35,9 @@ const CompromiseSearch = (props) => {
             </div>
             <div>
                 {
-                    // TODO add results table
+                    loading ?
+                        <Spinner /> :
+                        <BreachResults data={results}/>
                 }
             </div>
         </div>
