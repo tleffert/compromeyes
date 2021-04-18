@@ -12,9 +12,7 @@ function App() {
               Are you Comprom(👀)'d ?
             </Typography>
         </AppBar>
-        <Container maxWidth="lg">
-            <CompromiseSearch />
-        </Container>
+        <CompromiseSearch />
     </div>
   );
 }
