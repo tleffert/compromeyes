@@ -13,7 +13,7 @@ import styles from './BreachResults.module.css';
 // Meaty monster, handles table and sorting - probably what is causing performance issues
 const BreachResults = (props) => {
 
-    const [data, setData] = useState(props.data);
+    const [data, setData] = useState([...props.data]);
     const [sortBy, setSortBy] = useState('Name');
     const [sortDir, setSortDir] = useState('asc');
     const [searchText, setSearchText] = useState('');
@@ -28,23 +28,22 @@ const BreachResults = (props) => {
 
 
     useEffect(() => {
-        let dataCopy = [...props.data];
-        const sortedData = dataCopy.sort((a, b) => {
-            let aNorm = a[sortBy].toLowerCase();
-            let bNorm = b[sortBy].toLowerCase();
+        setData(prevData => {
+            return [...prevData].sort((a, b) => {
+                let aNorm = a[sortBy].toLowerCase();
+                let bNorm = b[sortBy].toLowerCase();
 
-            if ( aNorm < bNorm) {
-                return sortDir === 'asc' ? -1 : 1;
-            }
+                if ( aNorm < bNorm) {
+                    return sortDir === 'asc' ? -1 : 1;
+                }
 
-            if ( aNorm > bNorm) {
-                return sortDir === 'asc' ? 1 : -1;
-            }
+                if ( aNorm > bNorm) {
+                    return sortDir === 'asc' ? 1 : -1;
+                }
 
-            return 0;
+                return 0;
+            });
         });
-
-        setData(sortedData);
     }, [sortBy, sortDir, props.data]);
 
     const sortHandler = (prop, dir) => {
