@@ -19,6 +19,7 @@ const BreachResults = (props) => {
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
+        // Debouncing this would help greatly, not needing to change the data on every key stroke
         setData(props.data.filter(item => {
             const itemName = item.Name.toLowerCase();
             return itemName.includes(searchText.toLowerCase());
@@ -62,6 +63,10 @@ const BreachResults = (props) => {
         { id: 'BreachDate', label: 'Breach Date'}
     ];
 
+    /* Could/Probably should split this into smaller parts. Would (I think) help track down
+        the performance. I'm guessing is related to changedetection and cuasing way more than needed
+        digest/render cycles.
+    */
     return (
         <Fragment>
             <Box display="flex">
