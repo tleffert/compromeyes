@@ -18,11 +18,11 @@ Make sure to run the GraphQL server to get data
 
 ### `node server/apollo-graphql-server.js`
 
-Runs the GraphQL server on 'http://localhose:4000'
+Runs the GraphQL server on 'http://localhost:4000'
 
 - Will need to set the `hibp-api-key` header with an API key in order for requests to work - key purposefully left out
 
 ### `node server/server.js`
 
-Runs the express server on 'http://localhose:4200'
+Runs the express server on 'http://localhost:4200'
 - Early iterations used this to fetch data, App no longer hooked up to use
