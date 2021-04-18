@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 import BreachClassChip from './breach-class-chip/BreachClassChip';
 
+// Cool extension of just a normal table row, allows us to click to extend the table row for more info
 const CollapseRow = (props) => {
 
     const [open, setOpen] = useState(false);

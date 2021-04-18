@@ -10,6 +10,7 @@ import CollapseRow from './CollapseRow';
 
 import styles from './BreachResults.module.css';
 
+// Meaty monster, handles table and sorting - probably what is causing performance issues
 const BreachResults = (props) => {
 
     const [data, setData] = useState(props.data);

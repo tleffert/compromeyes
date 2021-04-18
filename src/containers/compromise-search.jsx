@@ -29,6 +29,7 @@ const CompromiseSearch = (props) => {
 
     const [results, setResults] = useState();
 
+    // Setting up so that our query is only executed when needed
     const [getBreaches, {loading, data}] = useLazyQuery(BREACHES);
 
     useEffect(() => {

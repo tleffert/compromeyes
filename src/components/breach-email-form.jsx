@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { TextField, Button, Box } from '@material-ui/core';
 
-
+// Nice little helper that hanldles our email submit and some validation
 const BreachEmailForm = (props) => {
 
     const [email, setEmail] = useState('');
