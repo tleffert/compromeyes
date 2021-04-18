@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
+import { useLazyQuery, gql } from '@apollo/client';
 
 import { Box, Grid } from '@material-ui/core';
 
@@ -8,28 +9,47 @@ import BreachResults from '../components/breach-results/BreachResults';
 import BreachEmailForm from '../components/breach-email-form';
 import Spinner from '../components/UI/Spinner/Spinner';
 
+const BREACHES = gql`
+    query GetBreaches {
+        breaches(email: "test@test.com") {
+            Name
+            Title
+            Domain
+            BreachDate
+            PwnCount
+            DataClasses
+            Description
+        }
+    }
+`;
+
 const CompromiseSearch = (props) => {
 
     const [email, setEmail] = useState('');
 
     const [results, setResults] = useState();
 
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
 
-    useEffect(async () => {
-        // mostly to skip first render
-        if (!email) return;
+    const [getBreaches, {loading, data}] = useLazyQuery(BREACHES);
 
-        setLoading(true);
-        try {
-            const {data} = await listBreaches(email);
-            setResults(data);
-        } catch (err) {
-            // Something bad happened
-        } finally {
-            setLoading(false);
+    useEffect(() => {
+
+        if (data) {
+            setResults(data.breaches);
+            console.log(data.breaches[0].DataClasses, data.breaches[0].DataClasses[0]);
         }
-    }, [email]);
+
+
+    }, [data]);
+
+    useEffect(() => {
+        console.log("ARE WE LOADING", loading);
+    }, [loading]);
+
+    const emailSubmitHandler = (email) => {
+        getBreaches({variable: {email: email}});
+    }
 
     const resultBox = (
         results || loading ?
@@ -53,9 +73,8 @@ const CompromiseSearch = (props) => {
             style={{ minHeight: '90vh' }}
         >
             <Box my={results || loading ? 4 : 'auto'}>
-                <BreachEmailForm submit={(email) => setEmail(email)}/>
+                <BreachEmailForm submit={(email) => emailSubmitHandler(email)}/>
             </Box>
-
             {resultBox}
         </Grid>
     );

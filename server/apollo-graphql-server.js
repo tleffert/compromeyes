@@ -14,7 +14,6 @@ class BreachesAPI extends RESTDataSource {
     }
 
     async getAccountBreaches(email) {
-        console.log("HEYEHG", email);
         return this.get(`${this.baseUrl}/${email}?truncateResponse=false`);
     }
 }
@@ -28,7 +27,7 @@ const typeDefs = gql`
         BreachDate: String
         Description: String
         PwnCount: String
-        DataClasses: [String]
+        DataClasses: [String!]
     }
 
     type Query {
