@@ -23,7 +23,7 @@ const CompromiseSearch = (props) => {
         setLoading(true);
         try {
             const {data} = await listBreaches(email);
-            setResults(data.slice(0, 50));
+            setResults(data);
         } catch (err) {
             // Something bad happened
         } finally {
