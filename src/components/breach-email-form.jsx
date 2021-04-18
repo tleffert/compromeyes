@@ -17,11 +17,12 @@ const BreachEmailForm = (props) => {
 
         if (!emailInput || emailInput.length == 0) {
             setInvalid(true);
+            setError('No email')
         }
 
         if (emailRegex.test(emailInput)) {
             setInvalid(false);
-            setEmail(emailInput);
+            setError('Invalid format');
         } else {
             setInvalid(true);
         }
@@ -40,7 +41,7 @@ const BreachEmailForm = (props) => {
                     onChange={(event) => validateEmail(event.target.value)}
                     value={email}
                     error={invalid}
-                    helperText={invalid ? 'Incorrect format' : ''}
+                    helperText={invalid ? error : ''}
                 />
             </Box>
             <Box>
