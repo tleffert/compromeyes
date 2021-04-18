@@ -10,8 +10,8 @@ import BreachEmailForm from '../components/breach-email-form';
 import Spinner from '../components/UI/Spinner/Spinner';
 
 const BREACHES = gql`
-    query GetBreaches {
-        breaches(email: "test@test.com") {
+    query GetBreaches($email: String!) {
+        breaches(email: $email) {
             Name
             Title
             Domain
@@ -29,27 +29,19 @@ const CompromiseSearch = (props) => {
 
     const [results, setResults] = useState();
 
-    // const [loading, setLoading] = useState(false);
-
     const [getBreaches, {loading, data}] = useLazyQuery(BREACHES);
 
     useEffect(() => {
-
         if (data) {
             setResults(data.breaches);
-            console.log(data.breaches[0].DataClasses, data.breaches[0].DataClasses[0]);
         }
-
-
     }, [data]);
 
     useEffect(() => {
-        console.log("ARE WE LOADING", loading);
-    }, [loading]);
-
-    const emailSubmitHandler = (email) => {
-        getBreaches({variable: {email: email}});
-    }
+        if (email) {
+            getBreaches({variables: {email: email}});
+        }
+    }, [email])
 
     const resultBox = (
         results || loading ?
@@ -65,7 +57,6 @@ const CompromiseSearch = (props) => {
 
     return (
         <Grid
-            maxWidth="lg"
             container
             justify="center"
             alignItems="center"
@@ -73,7 +64,7 @@ const CompromiseSearch = (props) => {
             style={{ minHeight: '90vh' }}
         >
             <Box my={results || loading ? 4 : 'auto'}>
-                <BreachEmailForm submit={(email) => emailSubmitHandler(email)}/>
+                <BreachEmailForm submit={(email) => setEmail(email)}/>
             </Box>
             {resultBox}
         </Grid>
