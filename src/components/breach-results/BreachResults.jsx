@@ -2,12 +2,10 @@ import { Fragment, useState, useEffect } from 'react';
 
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, Chip, makeStyles, TextField, TableSortLabel,
-    Grid, Box
+    TableRow, Paper, TableSortLabel, Box
 } from '@material-ui/core';
 
 import ResultFilter from './result-filter';
-import Spinner from '../UI/Spinner/Spinner';
 import CollapseRow from './CollapseRow';
 
 import styles from './BreachResults.module.css';
@@ -17,7 +15,6 @@ const BreachResults = (props) => {
     const [data, setData] = useState(props.data);
     const [sortBy, setSortBy] = useState('Name');
     const [sortDir, setSortDir] = useState('asc');
-    const [updating, setUpdating] = useState(false);
     const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
@@ -25,10 +22,12 @@ const BreachResults = (props) => {
             const itemName = item.Name.toLowerCase();
             return itemName.includes(searchText.toLowerCase());
         }));
-    }, [searchText]);
+    }, [searchText, props.data]);
+
 
     useEffect(() => {
-        const sortedData = [...data].sort((a, b) => {
+        let dataCopy = [...props.data];
+        const sortedData = dataCopy.sort((a, b) => {
             let aNorm = a[sortBy].toLowerCase();
             let bNorm = b[sortBy].toLowerCase();
 
@@ -44,7 +43,7 @@ const BreachResults = (props) => {
         });
 
         setData(sortedData);
-    }, [sortBy, sortDir]);
+    }, [sortBy, sortDir, props.data]);
 
     const sortHandler = (prop, dir) => {
         if (prop === sortBy) {

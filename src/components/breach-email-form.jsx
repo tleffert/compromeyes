@@ -15,7 +15,7 @@ const BreachEmailForm = (props) => {
 
     const validateEmail = (emailInput) => {
 
-        if (!emailInput || emailInput.length == 0) {
+        if (!emailInput || emailInput.length === 0) {
             setInvalid(true);
             setError('No email')
         }
@@ -45,7 +45,7 @@ const BreachEmailForm = (props) => {
                 />
             </Box>
             <Box alignSelf="flex-end">
-                <Button variant="contained" size="small" disabled={invalid || email.length == 0} onClick={submitHandler}>Submit</Button>
+                <Button variant="contained" size="small" disabled={invalid || email.length === 0} onClick={submitHandler}>Submit</Button>
             </Box>
         </Box>
         </form>

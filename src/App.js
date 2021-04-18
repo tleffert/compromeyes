@@ -1,6 +1,6 @@
 import './App.css';
 
-import { Container, AppBar, Typography } from '@material-ui/core';
+import { AppBar, Typography } from '@material-ui/core';
 
 import CompromiseSearch from './containers/compromise-search';
 
