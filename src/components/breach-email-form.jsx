@@ -44,8 +44,8 @@ const BreachEmailForm = (props) => {
                     helperText={invalid ? error : ''}
                 />
             </Box>
-            <Box>
-                <Button variant="contained" disabled={invalid || email.length == 0} onClick={submitHandler}>Submit</Button>
+            <Box alignSelf="flex-end">
+                <Button variant="contained" size="small" disabled={invalid || email.length == 0} onClick={submitHandler}>Submit</Button>
             </Box>
         </Box>
         </form>
