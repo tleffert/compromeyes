@@ -20,9 +20,9 @@ const CollapseRow = (props) => {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {props.row.Title}
+                    {props.row.Name}
                 </TableCell>
-                <TableCell>{props.row.Domain}</TableCell>
+                <TableCell>{props.row.Title}</TableCell>
                 <TableCell>{props.row.PwnCount}</TableCell>
                 <TableCell>{props.row.BreachDate}</TableCell>
             </TableRow>

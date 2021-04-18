@@ -15,7 +15,7 @@ import styles from './BreachResults.module.css';
 const BreachResults = (props) => {
 
     const [data, setData] = useState(props.data);
-    const [sortBy, setSortBy] = useState();
+    const [sortBy, setSortBy] = useState('Name');
     const [sortDir, setSortDir] = useState('asc');
     const [updating, setUpdating] = useState(false);
     const [searchText, setSearchText] = useState('');
@@ -28,39 +28,38 @@ const BreachResults = (props) => {
     }, [searchText]);
 
     useEffect(() => {
-        setData(sortString());
+        const sortedData = [...data].sort((a, b) => {
+            let aNorm = a[sortBy].toLowerCase();
+            let bNorm = b[sortBy].toLowerCase();
+
+            if ( aNorm < bNorm) {
+                return sortDir === 'asc' ? -1 : 1;
+            }
+
+            if ( aNorm > bNorm) {
+                return sortDir === 'asc' ? 1 : -1;
+            }
+
+            return 0;
+        });
+
+        setData(sortedData);
     }, [sortBy, sortDir]);
 
-    const sortString = () => {
-        let sortedData;
-        if (sortDir === 'asc') {
-            sortedData = data.sort((a, b) => {
-                return a[sortBy] <= b[sortBy] ? 1 : -1;
-            });
+    const sortHandler = (prop, dir) => {
+        if (prop === sortBy) {
+            setSortDir(prevState => prevState === 'asc' ? 'desc' : 'asc');
         } else {
-            sortedData = data.sort((a, b) => {
-                return a[sortBy] > b[sortBy] ? 1 : -1;
-            });
-        }
-        return sortedData;
-    }
-
-    const sortHandler = (sortProp, type) => {
-        if (sortProp === sortBy) {
-            // reverse sort dir
-            sortDir === 'asc' ? setSortDir('desc') : setSortDir('asc');
-        } else {
-            // new sort option
-            setSortBy(sortProp);
+            setSortBy(prop);
             setSortDir('asc');
         }
     }
 
     const headCells = [
-        { id: 'Name', label: 'Site'},
-        { id: 'Title', label: 'Title'},
-        { id: 'PwnCount', label: 'Count', type: "number"},
-        { id: 'BreachDate', label: 'Breach Date', type: "date"}
+        { id: 'Name', label: 'Site', sortable: true},
+        { id: 'Title', label: 'Title', sortable: true},
+        { id: 'PwnCount', label: 'Count'},
+        { id: 'BreachDate', label: 'Breach Date'}
     ];
 
     return (
@@ -83,7 +82,7 @@ const BreachResults = (props) => {
                                 <TableSortLabel
                                     active={sortBy === cell.id}
                                       direction={sortBy === cell.id ? sortDir : 'asc'}
-                                      onClick={() => sortHandler(cell.id, cell.type | 'string')}
+                                      onClick={() => cell.sortable ? sortHandler(cell.id) : null}
                                 >
                                 {cell.label}
                                 </TableSortLabel>

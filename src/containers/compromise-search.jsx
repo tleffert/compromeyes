@@ -49,7 +49,7 @@ const CompromiseSearch = (props) => {
                 {
                     loading ?
                         <Spinner /> :
-                        <BreachResults data={results}/>
+                        <BreachResults data={[...results]}/>
                 }
             </Box>
         : null
