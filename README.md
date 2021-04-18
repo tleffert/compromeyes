@@ -20,6 +20,8 @@ Make sure to run the GraphQL server to get data
 
 Runs the GraphQL server on 'http://localhose:4000'
 
+- Will need to set the `hibp-api-key` header with an API key in order for requests to work - key purposefully left out
+
 ### `node server/server.js`
 
 Runs the express server on 'http://localhose:4200'
