@@ -29,6 +29,11 @@ const CollapseRow = (props) => {
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box m={1}>
                             <Box mb={2}>
+                                <span>Domain: </span>
+                                <span>{props.row.Domain}</span>
+                            </Box>
+                            <Box mb={2}>
+                                <span>Danger: </span>
                                 {props.row.DataClasses.map(breachClass => {
                                        return (
                                            <Chip
