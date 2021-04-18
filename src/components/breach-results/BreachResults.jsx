@@ -2,18 +2,23 @@ import { Fragment, useState, useEffect } from 'react';
 
 import {
     Table, TableBody, TableCell, TableContainer, TableHead,
-    TableRow, Paper, Chip, makeStyles, TextField, TableSortLabel
+    TableRow, Paper, Chip, makeStyles, TextField, TableSortLabel,
+    Grid, Box
 } from '@material-ui/core';
 
+import ResultFilter from './result-filter';
 import Spinner from '../UI/Spinner/Spinner';
+import CollapseRow from './CollapseRow';
+
+import styles from './BreachResults.module.css';
 
 const BreachResults = (props) => {
 
-    const [searchText, setSearchText] = useState('');
     const [data, setData] = useState(props.data);
     const [sortBy, setSortBy] = useState();
     const [sortDir, setSortDir] = useState('asc');
     const [updating, setUpdating] = useState(false);
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         setData(props.data.filter(item => {
@@ -23,7 +28,6 @@ const BreachResults = (props) => {
     }, [searchText]);
 
     useEffect(() => {
-        console.log("SORT BY UPDATED", sortBy);
         setData(sortString());
     }, [sortBy, sortDir]);
 
@@ -42,7 +46,6 @@ const BreachResults = (props) => {
     }
 
     const sortHandler = (sortProp, type) => {
-        console.log("here is sort handler", sortProp, sortBy);
         if (sortProp === sortBy) {
             // reverse sort dir
             sortDir === 'asc' ? setSortDir('desc') : setSortDir('asc');
@@ -55,21 +58,22 @@ const BreachResults = (props) => {
 
     const headCells = [
         { id: 'Name', label: 'Site'},
-        { id: 'Domain', label: 'Domain'},
+        { id: 'Title', label: 'Title'},
         { id: 'PwnCount', label: 'Count', type: "number"},
         { id: 'BreachDate', label: 'Breach Date', type: "date"}
     ];
 
     return (
         <Fragment>
-            <TextField id="standard-basic" label="Search"
-                onChange={(event) => setSearchText(event.target.value)}
-                value={searchText}
-            />
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
+            <Box display="flex">
+                <Box><ResultFilter change={(text) => setSearchText(text)}/></Box>
+                <Box><Paper>{`${data.length} of ${props.data.length}`}</Paper></Box>
+            </Box>
+            <TableContainer component={Paper} className={styles.BreachResultTable}>
+              <Table aria-label="simple table" stickyHeader>
                 <TableHead>
                   <TableRow>
+                      <TableCell />
                     {
                         headCells.map((cell) => (
                             <TableCell
@@ -89,35 +93,14 @@ const BreachResults = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((row) => (
-                    <TableRow key={row.Name}>
-                      <TableCell component="th" scope="row">
-                        {row.Title}
-                      </TableCell>
-                       <TableCell>{row.Domain}</TableCell>
-                        <TableCell>{row.PwnCount}</TableCell>
-                      <TableCell>{row.BreachDate}</TableCell>
-                    </TableRow>
-                  ))}
+                    {data.map((row) => (
+                     <CollapseRow row={row} key={row.Name}/>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>
         </Fragment>
     );
 }
-
-// <TableCell>
-//     {row.DataClasses.map(breachClass => {
-//         return (
-//             <Chip
-//                 size="small"
-//                 key={`${row.Name}-${breachClass}`}
-//                 label={breachClass}
-//             />
-//         );
-//     })
-//
-//     }
-// </TableCell>
 
 export default BreachResults;
