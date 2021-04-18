@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Box } from '@material-ui/core';
 
 
 const BreachEmailForm = (props) => {
@@ -34,13 +34,19 @@ const BreachEmailForm = (props) => {
 
     return (
         <form>
-            <TextField id="standard-basic" label="Email"
-                onChange={(event) => validateEmail(event.target.value)}
-                value={email}
-                error={invalid}
-                helperText={invalid ? 'Incorrect format' : ''}
-            />
-            <Button variant="contained" disabled={invalid} onClick={submitHandler}>Submit</Button>
+        <Box display="flex" justifyContent="center">
+            <Box>
+                <TextField id="standard-basic" label="Email"
+                    onChange={(event) => validateEmail(event.target.value)}
+                    value={email}
+                    error={invalid}
+                    helperText={invalid ? 'Incorrect format' : ''}
+                />
+            </Box>
+            <Box>
+                <Button variant="contained" disabled={invalid || email.length == 0} onClick={submitHandler}>Submit</Button>
+            </Box>
+        </Box>
         </form>
     );
 
