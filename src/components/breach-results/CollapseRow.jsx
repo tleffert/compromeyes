@@ -5,6 +5,8 @@ import {TableRow, TableCell, Collapse, IconButton, Box, Typography, Chip } from 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
+import BreachClassChip from './breach-class-chip/BreachClassChip';
+
 const CollapseRow = (props) => {
 
     const [open, setOpen] = useState(false);
@@ -36,7 +38,7 @@ const CollapseRow = (props) => {
                                 <span>Danger: </span>
                                 {props.row.DataClasses.map(breachClass => {
                                        return (
-                                           <Chip
+                                           <BreachClassChip
                                                size="small"
                                                key={`${props.row.Name}-${breachClass}`}
                                                label={breachClass}
