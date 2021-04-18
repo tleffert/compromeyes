@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import {TableRow, TableCell, Collapse, IconButton, Box, Typography, Chip } from '@material-ui/core';
 
@@ -59,4 +59,4 @@ const CollapseRow = (props) => {
     );
 }
 
-export default CollapseRow;
+export default React.memo(CollapseRow);
